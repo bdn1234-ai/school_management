@@ -4,9 +4,13 @@ package com.hustuni.schoolmanagement.entity;
 import com.hustuni.schoolmanagement.entity.enumpk.Degree;
 import com.hustuni.schoolmanagement.entity.enumpk.TeacherPosition;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "teachers")
+@Getter
+@Setter
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

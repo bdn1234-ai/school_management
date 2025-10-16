@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin Lớp học</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9; color: #333; }
+        .container { max-width: 960px; margin: 20px auto; padding: 30px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h1, h2 { color: #0056b3; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; }
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 1.8em; margin-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f8f9fa; font-weight: 600; }
+        tr:nth-child(even) { background-color: #fdfdfd; }
+        .info-section p { font-size: 1.1em; line-height: 1.7; }
+        .info-section strong { color: #495057; }
+        .empty-list { color: #888; font-style: italic; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container" th:object="${classInfo}">
+    <h1 th:text="|Chi tiết Lớp học: *{className}|">Tên Lớp học</h1>
+
+    <div class="info-section">
+        <p><strong>Mô tả:</strong> <span th:text="*{description}">Mô tả chi tiết về lớp.</span></p>
+        <p><strong>Thuộc Khoa/Viện:</strong> <span th:text="*{department?.departmentName}">Tên Khoa/Viện</span></p>
+    </div>
+
+    <h2>Ban Cán sự</h2>
+    <div class="info-section">
+        <p>
+            <strong>Lớp trưởng:</strong>
+            <span th:if="*{classPresident}" th:text="*{classPresident.fullName}">Nguyễn Văn A</span>
+            <span th:unless="*{classPresident}" class="empty-list">Chưa được phân công</span>
+        </p>
+        <p>
+            <strong>Lớp phó:</strong>
+            <span th:if="*{classVicePresident}" th:text="*{classVicePresident.fullName}">Trần Thị B</span>
+            <span th:unless="*{classVicePresident}" class="empty-list">Chưa được phân công</span>
+        </p>
+        <p>
+            <strong>Bí thư:</strong>
+            <span th:if="*{classSecretary}" th:text="*{classSecretary.fullName}">Lê Văn C</span>
+            <span th:unless="*{classSecretary}" class="empty-list">Chưa được phân công</span>
+        </p>
+    </div>
+
+    <h2>Danh sách Giảng viên Phụ trách</h2>
+    <div th:if="${not #lists.isEmpty(classInfo.teachers)}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID Giảng viên</th>
+                <th>Họ và Tên</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="teacher : *{teachers}">
+                <td th:text="${teacher.id}">GV001</td>
+                <td th:text="${teacher.fullName}">Tên giảng viên</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p th:if="${#lists.isEmpty(classInfo.teachers)}" class="empty-list">
+        Chưa có giảng viên nào được phân công cho lớp này.
+    </p>
+
+    <h2>Danh sách Sinh viên</h2>
+    <div th:if="${not #lists.isEmpty(classInfo.students)}">
+        <table>
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>ID Sinh viên</th>
+                <th>Họ và Tên</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student, iterStat : *{students}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${student.id}">SV001</td>
+                <td th:text="${student.fullName}">Tên sinh viên</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p th:if="${#lists.isEmpty(classInfo.students)}" class="empty-list">
+        Chưa có sinh viên nào trong lớp này.
+    </p>
+
+</div>
+
+</body>
+</html>

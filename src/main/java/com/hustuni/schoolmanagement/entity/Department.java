@@ -1,18 +1,21 @@
 package com.hustuni.schoolmanagement.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "departments")
 public class Department {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String departmentName;
 
@@ -25,5 +28,8 @@ public class Department {
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    List<StudentClass> studentClasses;
 
 }

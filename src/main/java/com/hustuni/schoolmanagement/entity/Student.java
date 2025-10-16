@@ -2,9 +2,13 @@ package com.hustuni.schoolmanagement.entity;
 
 import com.hustuni.schoolmanagement.entity.role.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "students")
+@Getter
+@Setter
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +21,7 @@ public class Student {
     @JoinColumn(name = "program_type_id")
     private ProgramType programType;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
